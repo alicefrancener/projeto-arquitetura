@@ -1,0 +1,20 @@
+version: '3'
+
+services: 
+  gateway: 
+    image: nginx:1.21.0
+    container_name: container-gateway
+    depends_on:
+      - stream-service
+    volumes: 
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf
+    ports: 
+      - 80:80
+  stream-service:
+    image: stream-service
+    container_name: stream-service
+    build: 
+        context: ./stream-service
+    ports:
+      - "3001:3001"
+    restart: on-failure
